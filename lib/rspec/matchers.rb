@@ -16,7 +16,7 @@ module RSpec
   #
   # In addition to those Expression Matchers that are defined explicitly, RSpec will
   # create custom Matchers on the fly for any arbitrary predicate, giving your specs
-  # a much more natural language feel. 
+  # a much more natural language feel.
   #
   # A Ruby predicate is a method that ends with a "?" and returns true or false.
   # Common examples are +empty?+, +nil?+, and +instance_of?+.
@@ -170,6 +170,7 @@ require 'rspec/matchers/be_close'
 require 'rspec/matchers/be_instance_of'
 require 'rspec/matchers/be_kind_of'
 require 'rspec/matchers/change'
+require 'rspec/matchers/yield_from'
 require 'rspec/matchers/eq'
 require 'rspec/matchers/eql'
 require 'rspec/matchers/equal'

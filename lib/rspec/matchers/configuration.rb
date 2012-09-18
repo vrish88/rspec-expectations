@@ -4,6 +4,15 @@ module RSpec
   module Matchers
     # Provides configuration options for rspec-expectations.
     class Configuration
+
+      def fail_fast=(fail_fast_mode)
+
+      end
+
+      def fail_fast
+        true
+      end
+
       # Configures the supported syntax.
       # @param [Array<Symbol>, Symbol] values the syntaxes to enable
       # @example

@@ -165,6 +165,20 @@ module RSpec
       end
     end
 
+    shared_examples_for "configuring fail fast examples" do
+      it 'is configured to fail fast by default' do
+        configured_fail_fast.should eq(true)
+
+        expect { 3.should_not eq(3) }.to raise_error(RSpec::Expectations::ExpectationNotMetError, /expected: value != 3/)
+      end
+
+      it 'can be configured to be on' do
+        configure_fail_fast(true)
+
+        expect { 3.should_not eq(3) }.to raise_error(RSpec::Expectations::ExpectationNotMetError, /expected: value != 3/)
+      end
+    end
+
     describe "configuring rspec-expectations directly" do
       it_behaves_like "configuring the expectation syntax" do
         def configure_syntax(syntax)
@@ -173,6 +187,16 @@ module RSpec
 
         def configured_syntax
           RSpec::Matchers.configuration.syntax
+        end
+      end
+
+      it_behaves_like "configuring fail fast examples" do
+        def configure_fail_fast(fail_fast_mode)
+          RSpec::Matchers.configuration.fail_fast = fail_fast_mode
+        end
+
+        def configured_fail_fast
+          RSpec::Matchers.configuration.fail_fast
         end
       end
     end
@@ -191,6 +215,24 @@ module RSpec
           RSpec.configure do |rspec|
             rspec.expect_with :rspec do |c|
               return c.syntax
+            end
+          end
+        end
+      end
+
+      it_behaves_like "configuring fail fast examples" do
+        def configure_fail_fast(fail_fast_mode)
+          RSpec.configure do |rspec|
+            rspec.expect_with :rspec do |c|
+              c.fail_fast = true
+            end
+          end
+        end
+
+        def configured_fail_fast
+          RSpec.configure do |rspec|
+            rspec.expect_with :rspec do |c|
+              return c.fail_fast
             end
           end
         end

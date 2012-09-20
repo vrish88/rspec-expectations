@@ -30,6 +30,29 @@ module RSpec
           end
         end
 
+        RSpec::Expectations.expectation_not_met(message)
+      end
+
+      def expectation_not_met(message)
+        if RSpec::Matchers.configuration.fail_fast?
+          raise(RSpec::Expectations::ExpectationNotMetError.new(message))
+        else
+          RSpec::Expectations.add_to_failures(message)
+        end
+      end
+
+      def add_to_failures(message)
+        @failure_messages ||= []
+        @failure_messages << message
+      end
+
+      def raise_collected_failures
+        if @failure_messages.one?
+          message = @failure_messages.first
+        else
+          message = @failure_messages.collect { |message| "- #{message}" }.join("\n")
+        end
+        @failure_messages = []
         raise(RSpec::Expectations::ExpectationNotMetError.new(message))
       end
 

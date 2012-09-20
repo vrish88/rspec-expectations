@@ -37,3 +37,24 @@ Feature: Fail Fast Configuration
     """
     When I run `rspec fail_fast_enabled.rb fail_fast_spec.rb`
     Then the output should contain "1 example, 1 failure"
+
+  Scenario: All failed assertions will be reported the example when fail fast is disabled
+    Given a file named "fail_fast_spec.rb" with:
+    """ruby
+    describe "when failing on the first example" do
+      it "should only report the first failed exception" do
+        expect(1).to eq(2)
+        expect(2).to eq(3)
+      end
+    end
+    """
+    And a file named "fail_fast_disabled.rb" with:
+    """ruby
+    RSpec.configure do |rspec|
+      rspec.expect_with :rspec do |c|
+        c.fail_fast = false
+      end
+    end
+    """
+    When I run `rspec fail_fast_disabled.rb fail_fast_spec.rb`
+    Then the output should contain "1 example, 2 failure"

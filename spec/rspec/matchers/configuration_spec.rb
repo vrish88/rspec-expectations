@@ -196,7 +196,7 @@ module RSpec
         end
 
         def configured_fail_fast
-          RSpec::Matchers.configuration.fail_fast
+          RSpec::Matchers.configuration.fail_fast?
         end
       end
     end
@@ -232,7 +232,7 @@ module RSpec
         def configured_fail_fast
           RSpec.configure do |rspec|
             rspec.expect_with :rspec do |c|
-              return c.fail_fast
+              return c.fail_fast?
             end
           end
         end

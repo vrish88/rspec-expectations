@@ -5,12 +5,10 @@ module RSpec
     # Provides configuration options for rspec-expectations.
     class Configuration
 
-      def fail_fast=(fail_fast_mode)
+      attr_writer :fail_fast
 
-      end
-
-      def fail_fast
-        true
+      def fail_fast?
+        @fail_fast
       end
 
       # Configures the supported syntax.
